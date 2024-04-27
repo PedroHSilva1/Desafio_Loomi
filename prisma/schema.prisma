@@ -1,0 +1,95 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model cliente {
+  id_cliente      Int       @id @default(autoincrement())
+  id_usuario      Int?
+  id_endereco     Int?
+  nomecompleto    String?   @db.VarChar(100)
+  contato         String?   @db.VarChar(13)
+  status          Boolean?
+  datacriacao     DateTime? @default(now()) @db.Timestamp(6)
+  dataatualizacao DateTime? @default(now()) @db.Timestamp(6)
+  endereco        endereco? @relation(fields: [id_endereco], references: [id_endereco], onDelete: NoAction, onUpdate: NoAction)
+  usuario         usuario?  @relation(fields: [id_usuario], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  pedido          pedido[]
+}
+
+model endereco {
+  id_endereco Int       @id @default(autoincrement())
+  cep         String?   @db.VarChar(8)
+  rua         String?   @db.VarChar(100)
+  bairro      String?   @db.VarChar(100)
+  cidade      String?   @db.VarChar(100)
+  estado      String?   @db.VarChar(2)
+  cliente     cliente[]
+}
+
+model itempedido {
+  id_item      Int      @id @default(autoincrement())
+  id_pedido    Int?
+  id_produto   Int?
+  pedido       pedido?  @relation(fields: [id_pedido], references: [id_pedido], onDelete: NoAction, onUpdate: NoAction)
+  produto      produto? @relation(fields: [id_produto], references: [id_produto], onDelete: NoAction, onUpdate: NoAction)
+  quantidade   Int?
+  precounidade Decimal? @db.Decimal
+  subtotal     Decimal? @db.Decimal
+}
+
+model pedido {
+  id_pedido    Int            @id @default(autoincrement())
+  id_cliente   Int?
+  statuspedido status_pedido?
+  datapedido   DateTime?      @db.Timestamp(6)
+  totalpedido  Decimal?       @db.Decimal
+  itempedido   itempedido[]
+  cliente      cliente?       @relation(fields: [id_cliente], references: [id_cliente], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model produto {
+  id_produto        Int          @id @default(autoincrement())
+  nomeproduto       String?      @db.VarChar(100)
+  descricao         String?
+  preco             Decimal?     @db.Decimal
+  quantidadeestoque Int?
+  datacriacao       DateTime?    @default(now()) @db.Timestamp(6)
+  dataatualizacao   DateTime?    @default(now()) @db.Timestamp(6)
+  itempedido        itempedido[]
+}
+
+model relatoriovendas {
+  id_relatorio     Int       @id @default(autoincrement())
+  periodo          DateTime? @db.Timestamp(6)
+  totalvendas      Decimal?  @db.Decimal
+  produtosvendidos Int?
+  caminhoarquivo   String?   @db.VarChar(255)
+}
+
+model usuario {
+  id              Int           @id @default(autoincrement())
+  nome            String?       @db.VarChar(100)
+  email           String?       @unique @db.VarChar(100)
+  senha           String?       @db.VarChar(64)
+  datacriacao     DateTime?     @default(now()) @db.Timestamp(6)
+  dataatualizacao DateTime?     @default(now()) @db.Timestamp(6)
+  tipo            tipo_usuario?
+  cliente         cliente[]
+}
+
+enum status_pedido {
+  Recebido
+  Em_prepara__o @map("Em preparação")
+  Despachado
+  Entregue
+}
+
+enum tipo_usuario {
+  Admin
+  Cliente
+}
