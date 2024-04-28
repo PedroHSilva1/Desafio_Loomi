@@ -1,4 +1,4 @@
-import { create, get, getId } from "../controllers/usuario.controllers";
+import { create, get, getId, update, remove } from "../controllers/usuario.controllers";
 
 
   
@@ -6,6 +6,8 @@ const userRoutes = app => {
     app.post("/user", create)
     app.get("/user", get)
     app.get("/user/:id", getId)
+    app.put("/user/:id", update)
+    app.delete("/user/:id", remove)
 }
 
 export default userRoutes;
