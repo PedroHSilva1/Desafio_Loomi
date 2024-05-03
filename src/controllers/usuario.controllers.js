@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt"
 import { userValidation } from "../validations/usuario.validations";
 import { createUser, deleteUser, getAll, getById, updateUser } from "../repositorys/usuario.repository";
-import exp from "constants";
+
 
 export const create = async (req, res) => {
     try {
