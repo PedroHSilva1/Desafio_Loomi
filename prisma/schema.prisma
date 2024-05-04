@@ -46,7 +46,7 @@ model pedido {
   id_pedido    Int            @id @default(autoincrement())
   id_cliente   Int?
   statuspedido status_pedido?
-  datapedido   DateTime?      @db.Timestamp(6)
+  datapedido   DateTime      @default(now()) @db.Timestamp(6)
   totalpedido  Decimal?       @db.Decimal
   itempedido   itempedido[]
   cliente      cliente?       @relation(fields: [id_cliente], references: [id_cliente], onDelete: NoAction, onUpdate: NoAction)
