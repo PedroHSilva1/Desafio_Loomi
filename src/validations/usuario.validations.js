@@ -4,5 +4,5 @@ export const userValidation = yup.object({
     nome: yup.string().required(),
     email: yup.string().required().email(),
     senha: yup.string().required().min(6),
-    tipo: yup.string().required()
+    tipo: yup.string().required().oneOf(['Cliente', 'Admin'], 'O tipo deve ser "Cliente" ou "Admin"')
 })
