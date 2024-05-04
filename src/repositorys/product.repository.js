@@ -61,8 +61,8 @@ export const updateProduct = async (id_produto, data) => {
             descricao: true,
             preco: true,
             quantidadeestoque: true,
-            datacriacao: false,
-            dataatualizacao: false,
+            datacriacao: true,
+            dataatualizacao: true,
         }
     })
     return product
