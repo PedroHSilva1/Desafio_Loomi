@@ -1,5 +1,5 @@
 import { orderValidation } from "../validations/order.validations";
-import { createOrder, deleteOrder, getAll, getById, updateOrder } from "../repositorys/order.repository";
+import { createOrder, deleteOrder, getAll, getById, updateOrder } from "../repositories/order.repository";
 
 
 export const create = async (req, res) => {
