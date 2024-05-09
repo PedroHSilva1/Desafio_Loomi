@@ -7,7 +7,7 @@ export const createOrder = async (data) => {
             id_pedido: true,
             id_cliente: true,
             statuspedido: true,
-            datapedido: true,
+            datapedido: false,
             totalpedido: true,
             
         }
