@@ -4,10 +4,10 @@ import { createOrder, deleteOrder, getAll, getById, updateOrder } from "../repos
 
 export const create = async (req, res) => {
     try {
-        //await orderValidation.validate(req.body)
+        await orderValidation.validate(req.body)
 
         const order = await createOrder(req.body)
-        res.status(200).send(order)
+        res.status(201).send(order)
     } catch (e) {
         res.status(400).send(e)
     }
@@ -16,18 +16,18 @@ export const create = async (req, res) => {
 export const get = async (req, res) => {
     try {
         const orders = await getAll()
-        res.status(200).send(orders)
+        res.status(302).send(orders)
     } catch (e) {
-        res.status(400).send(e)
+        res.status(404).send(e)
     }
 }
 
 export const getId = async (req, res) => {
     try {
         const order = await getById(Number(req.params.id_pedido))
-        res.status(200).send(order)
+        res.status(302).send(order)
     } catch (e) {
-        res.status(400).send(e)
+        res.status(404).send(e)
     }
 }
 
@@ -45,6 +45,6 @@ export const remove = async (req,res) => {
         await deleteOrder(Number(req.params.id_pedido))
         res.status(200).send()
     } catch (e) {
-        res.status(400).send(e)
+        res.status(404).send(e)
     }
 }

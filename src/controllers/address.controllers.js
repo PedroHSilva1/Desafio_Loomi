@@ -1,5 +1,5 @@
 import { addressValidation } from "../validations/address.validations";
-import { createAddress, deleteAddress, getAll, getById, updateAddress } from "../repositorys/address.repository";
+import { createAddress, deleteAddress, getAll, getById, updateAddress } from "../repositories/address.repository";
 
 
 export const create = async (req, res) => {
@@ -7,7 +7,7 @@ export const create = async (req, res) => {
         await addressValidation.validate(req.body)
 
         const address = await createAddress(req.body)
-        res.status(200).send(address)
+        res.status(201).send(address)
     } catch (e) {
         res.status(400).send(e)
     }
@@ -16,18 +16,18 @@ export const create = async (req, res) => {
 export const get = async (req, res) => {
     try {
         const adresses = await getAll()
-        res.status(200).send(adresses)
+        res.status(302).send(adresses)
     } catch (e) {
-        res.status(400).send(e)
+        res.status(404).send(e)
     }
 }
 
 export const getId = async (req, res) => {
     try {
         const address = await getById(Number(req.params.id_endereco))
-        res.status(200).send(address)
+        res.status(302).send(address)
     } catch (e) {
-        res.status(400).send(e)
+        res.status(404).send(e)
     }
 }
 
@@ -45,6 +45,6 @@ export const remove = async (req,res) => {
         await deleteAddress(Number(req.params.id_endereco))
         res.status(200).send()
     } catch (e) {
-        res.status(400).send(e)
+        res.status(404).send(e)
     }
 }

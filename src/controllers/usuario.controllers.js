@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt"
 import { userValidation } from "../validations/usuario.validations";
-import { createUser, deleteUser, getAll, getById, updateUser } from "../repositorys/usuario.repository";
+import { createUser, deleteUser, getAll, getById, updateUser } from "../repositories/usuario.repository";
 
 
 export const create = async (req, res) => {
@@ -10,7 +10,7 @@ export const create = async (req, res) => {
         const hashpassword = await bcrypt.hash(req.body.senha, 10)
         req.body.senha = hashpassword
         const user = await createUser(req.body)
-        res.status(200).send(user)
+        res.status(201).send(user)
     } catch (e) {
         res.status(400).send(e)
     }
@@ -19,18 +19,18 @@ export const create = async (req, res) => {
 export const get = async (req, res) => {
     try {
         const users = await getAll()
-        res.status(200).send(users)
+        res.status(302).send(users)
     } catch (e) {
-        res.status(400).send(e)
+        res.status(404).send(e)
     }
 }
 
 export const getId = async (req, res) => {
     try {
         const user = await getById(Number(req.params.id))
-        res.status(200).send(user)
+        res.status(302).send(user)
     } catch (e) {
-        res.status(400).send(e)
+        res.status(404).send(e)
     }
 }
 
@@ -48,6 +48,6 @@ export const remove = async (req,res) => {
         await deleteUser(Number(req.params.id))
         res.status(200).send()
     } catch (e) {
-        res.status(400).send(e)
+        res.status(404).send(e)
     }
 }
